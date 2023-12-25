@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <math.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 #include "driver/touch_pad.h"
 
 #define TOUCH_BUTTON_NUM 4
@@ -91,4 +96,14 @@ int get_touch_posi(int touch_value[TOUCH_BUTTON_NUM])
     touch_posi = touch_posi / touch_devia;
 
     return touch_posi;
+}
+
+// 读取传感器值
+void readTouchData(uint32_t *touch_value)
+{
+    for (int i = 0; i < TOUCH_BUTTON_NUM; i++)
+    {
+        touch_pad_read_raw_data(button[i], &touch_value[i]);
+        touch_value[i] = abs(touch_value[i] - touch_calibra_value[i]);
+    }
 }

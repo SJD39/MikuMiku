@@ -7,6 +7,8 @@
 #include "touch.c"
 #include "usb_keyboard.c"
 
+int touch_posi;
+
 void app_main(void)
 {
     // 配置USB
@@ -22,22 +24,41 @@ void app_main(void)
 
     while (1)
     {
-        for (int i = 0; i < TOUCH_BUTTON_NUM; i++)
-        {
-            touch_pad_read_raw_data(button[i], &touch_value[i]); 
-            touch_value[i] = abs(touch_value[i] - touch_calibra_value[i]);
-            printf("T%d: [%lu] ", button[i], touch_value[i]);
-        }
-        printf("\n");
+        readTouchData(&touch_value);
 
         // 判断是否有键被按下
         for (size_t i = 0; i < TOUCH_BUTTON_NUM; i++)
         {
-            if (touch_value[i] > 2000)
+            if (touch_value[i] > 10000)
             {
                 // 获取触摸位置
-                printf("                                                             %d", get_touch_posi(touch_value));
-                printf("\n");
+                touch_posi = get_touch_posi(touch_value);
+                vTaskDelay(10 / portTICK_PERIOD_MS);
+                readTouchData(&touch_value);
+                printf("%d\n", abs(touch_posi - get_touch_posi(touch_value)));
+                if (abs(touch_posi - get_touch_posi(touch_value)) < 10)
+                {
+                    printf("%s\n","点按");
+                    if (touch_posi >= 0 && touch_posi < 25)
+                    {
+                        printf("%s\n","x");
+                    }
+                    if (touch_posi >= 25 && touch_posi < 50)
+                    {
+                        printf("%s\n","y");
+                    }
+                    if (touch_posi >= 50 && touch_posi < 75)
+                    {
+                        printf("%s\n","b");
+                    }
+                    if (touch_posi >= 75 && touch_posi < 100)
+                    {
+                        printf("%s\n","a");
+                    }
+                }else{
+                    printf("%s\n","滑键");
+                }
+
                 break;
             }
         }

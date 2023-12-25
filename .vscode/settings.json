@@ -8,6 +8,7 @@
   "idf.portWin": "COM9",
   "idf.flashType": "UART",
   "files.associations": {
-    "freertos.h": "c"
+    "freertos.h": "c",
+    "touch_pad.h": "c"
   }
 }
