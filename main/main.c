@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
@@ -10,13 +11,14 @@ void app_main(void)
 {
     // 初始化触摸
     initializeTouch();
-    printf("初始化完成\n");
+    // printf("初始化完成\n");
 
     // 校准触摸
     calibraTouch(&touch_calibra_value);
-    printf("校准完成完成\n");
+    // printf("校准完成完成\n");
 
-    tinyusb_driver_install(&tusb_cfg)
+    // 配置USB
+    tinyusb_driver_install(&tusb_cfg);
 
     while (1)
     {
