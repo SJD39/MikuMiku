@@ -9,6 +9,9 @@
 
 void app_main(void)
 {
+    // 配置USB
+    tinyusb_driver_install(&tusb_cfg);
+
     // 初始化触摸
     initializeTouch();
     printf("初始化完成\n");
@@ -16,9 +19,6 @@ void app_main(void)
     // 校准触摸
     calibraTouch(&touch_calibra_value);
     printf("校准完成完成\n");
-
-    // 配置USB
-    tinyusb_driver_install(&tusb_cfg);
 
     while (1)
     {
@@ -42,6 +42,6 @@ void app_main(void)
             }
         }
 
-        vTaskDelay(200 / portTICK_PERIOD_MS);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }

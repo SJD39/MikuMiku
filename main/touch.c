@@ -31,6 +31,8 @@ void initializeTouch()
         touch_pad_config(button[i]);
     }
 
+    touch_pad_set_measurement_interval(100);
+
     touch_pad_set_fsm_mode(TOUCH_FSM_MODE_TIMER);
     touch_pad_fsm_start();
 
