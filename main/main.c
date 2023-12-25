@@ -16,6 +16,8 @@ void app_main(void)
     calibraTouch(&touch_calibra_value);
     printf("校准完成完成\n");
 
+    tinyusb_driver_install(&tusb_cfg)
+
     while (1)
     {
         for (int i = 0; i < TOUCH_BUTTON_NUM; i++)
