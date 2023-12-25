@@ -11,11 +11,11 @@ void app_main(void)
 {
     // 初始化触摸
     initializeTouch();
-    // printf("初始化完成\n");
+    printf("初始化完成\n");
 
     // 校准触摸
     calibraTouch(&touch_calibra_value);
-    // printf("校准完成完成\n");
+    printf("校准完成完成\n");
 
     // 配置USB
     tinyusb_driver_install(&tusb_cfg);
@@ -24,7 +24,7 @@ void app_main(void)
     {
         for (int i = 0; i < TOUCH_BUTTON_NUM; i++)
         {
-            touch_pad_read_raw_data(button[i], &touch_value[i]); // read raw data.
+            touch_pad_read_raw_data(button[i], &touch_value[i]); 
             touch_value[i] = abs(touch_value[i] - touch_calibra_value[i]);
             printf("T%d: [%lu] ", button[i], touch_value[i]);
         }
@@ -44,5 +44,4 @@ void app_main(void)
 
         vTaskDelay(200 / portTICK_PERIOD_MS);
     }
-    
 }
