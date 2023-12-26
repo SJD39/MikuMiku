@@ -9,6 +9,7 @@
   "idf.flashType": "UART",
   "files.associations": {
     "freertos.h": "c",
-    "touch_pad.h": "c"
+    "touch_pad.h": "c",
+    "task.h": "c"
   }
 }
