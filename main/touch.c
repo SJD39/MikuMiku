@@ -36,8 +36,6 @@ void initializeTouch()
         touch_pad_config(button[i]);
     }
 
-    touch_pad_set_measurement_interval(100);
-
     touch_pad_set_fsm_mode(TOUCH_FSM_MODE_TIMER);
     touch_pad_fsm_start();
 
@@ -49,6 +47,7 @@ void initializeTouch()
 void calibraTouch(uint32_t *calibraData)
 {
     uint32_t touch_value[TOUCH_BUTTON_NUM][10];
+    int temp;
 
     // 获取校准数据
     for (size_t ii = 0; ii < 10; ii++)
@@ -99,11 +98,11 @@ int get_touch_posi(int touch_value[TOUCH_BUTTON_NUM])
 }
 
 // 读取传感器值
-void readTouchData(uint32_t *touch_value)
-{
-    for (int i = 0; i < TOUCH_BUTTON_NUM; i++)
-    {
-        touch_pad_read_raw_data(button[i], &touch_value[i]);
-        touch_value[i] = abs(touch_value[i] - touch_calibra_value[i]);
-    }
-}
+// void readTouchData(uint32_t *touch_value)
+// {
+//     for (int i = 0; i < TOUCH_BUTTON_NUM; i++)
+//     {
+//         touch_pad_read_raw_data(button[i], &touch_value[i]);
+//         touch_value[i] = abs(touch_value[i] - touch_calibra_value[i]);
+//     }
+// }
