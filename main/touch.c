@@ -47,6 +47,7 @@ void initializeTouch()
 void calibraTouch(uint32_t *calibraData)
 {
     uint32_t touch_value[TOUCH_BUTTON_NUM][10];
+    int temp;
 
     // 获取校准数据
     for (size_t ii = 0; ii < 10; ii++)

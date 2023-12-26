@@ -4,30 +4,8 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#define TOUCH_BUTTON_NUM 4
-
-uint32_t touch_value[TOUCH_BUTTON_NUM];
-uint32_t touch_calibra_value[TOUCH_BUTTON_NUM];
-
-static const touch_pad_t button[TOUCH_BUTTON_NUM] = {
-    // TOUCH_PAD_NUM1,
-    // TOUCH_PAD_NUM2,
-    // TOUCH_PAD_NUM3,
-    TOUCH_PAD_NUM4,
-    TOUCH_PAD_NUM5,
-    TOUCH_PAD_NUM6,
-    TOUCH_PAD_NUM7
-    // TOUCH_PAD_NUM8,
-    // TOUCH_PAD_NUM9,
-    // TOUCH_PAD_NUM10,
-    // TOUCH_PAD_NUM11,
-    // TOUCH_PAD_NUM12,
-    // TOUCH_PAD_NUM13,
-    // TOUCH_PAD_NUM14
-};
-
-// #include "touch.c"
-// #include "usb_keyboard.c"
+#include "touch.c"
+#include "usb_keyboard.c"
 
 int touch_posi;
 
@@ -37,49 +15,11 @@ void app_main(void)
     // tinyusb_driver_install(&tusb_cfg);
 
     // 初始化触摸
-    touch_pad_init();
-    for (int i = 0; i < TOUCH_BUTTON_NUM; i++)
-    {
-        touch_pad_config(button[i]);
-    }
-
-    touch_pad_set_fsm_mode(TOUCH_FSM_MODE_TIMER);
-    touch_pad_fsm_start();
-
-    vTaskDelay(200 / portTICK_PERIOD_MS);
-    // initializeTouch();
+    initializeTouch();
     printf("初始化完成\n");
 
-    vTaskDelay(200 / portTICK_PERIOD_MS);
-
     // 校准触摸
-    // calibraTouch(&touch_calibra_value);
-    uint32_t touch_value[TOUCH_BUTTON_NUM][10];
-
-    // 获取校准数据
-    for (size_t ii = 0; ii < 10; ii++)
-    {
-        for (size_t i = 0; i < TOUCH_BUTTON_NUM; i++)
-        {
-            touch_pad_read_raw_data(button[i], &touch_value[i][ii]);
-            printf("%lu ", touch_value[i][ii]);
-        }
-        printf("\n");
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-    }
-
-    printf("\n");
-
-    // 计算平均值
-    for (size_t i = 0; i < TOUCH_BUTTON_NUM; i++)
-    {
-        for (size_t ii = 0; ii < 10; ii++)
-        {
-            calibraData[i] = calibraData[i] + touch_value[i][ii];
-        }
-        calibraData[i] = round((long double)calibraData[i] / 10);
-        printf("%lu ", calibraData[i]);
-    }
+    calibraTouch(&touch_calibra_value);
     printf("校准完成完成\n");
 
     while (1)
